@@ -55,6 +55,8 @@ sub_num = {
 
 #未強化の聖遺物を生成
 def create_artifact():
+    if os.path.exists(f"data.json"):
+        os.remove(f"data.json")
     level = 0
     piece_pick = numpy.random.choice(piece)
     if piece_pick == "生の花":
@@ -153,19 +155,17 @@ def enhance():
         print(f"{status[sub_status[i]]} {display_sub_num[i]}")
     #Lv20の場合jsonファイルを削除、Lv20未満の場合jsonファイルを上書き
     sub_status = [str(x) for x in list(sub_status)]
-    if level != 20:
-        data = {"level":level,
-            "piece":piece,
-            "main":int(main),
-            "picked_sub_num":picked_sub_num,
-            "sub_status":sub_status,
-            "op":op
-            }
-        with open(f"data.json", "w") as f:
-            json.dump(data, f)
-    else:
+    data = {"level":level,
+        "piece":piece,
+        "main":int(main),
+        "picked_sub_num":picked_sub_num,
+        "sub_status":sub_status,
+        "op":op
+        }
+    with open(f"data.json", "w") as f:
+        json.dump(data, f)
+    if level == 20:
         print("\n最大Lvに達しました")
-        os.remove(f"data.json")
     return level
 
 
